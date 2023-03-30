@@ -1,0 +1,31 @@
+#primary_color{
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+#primary_color::-webkit-color-swatch-wrapper {
+    padding: 0; 
+}
+#primary_color::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+}
+
+.setting_text{
+    width: 80%;
+    text-align: start;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting_comp{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+}
