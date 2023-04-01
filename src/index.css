@@ -33,9 +33,7 @@ code {
 
 
 .box-shadow {
-  box-shadow: 2px 4px 2px 1px rgba(0, 0, 0, 0.47);
-  -webkit-box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.47);
-  -moz-box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.47) ;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 

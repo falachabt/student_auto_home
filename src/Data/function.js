@@ -12,7 +12,7 @@ import Input from "@mui/material/Input";
 
 import * as React from "react";
 
-import { useStateContext } from "../Contexts/ContextProvider";
+import { UseStateContext } from "../Contexts/ContextProvider";
 
 // this whil return the number of time
 export const generateSpecificLengthArr = (length) => {
@@ -112,7 +112,7 @@ export const domFunction = (() => {
     useSx = true,
     variant = "rounded",
   }) => {
-    const { themeMode } = useStateContext();
+    const { themeMode } = UseStateContext();
 
     return (
       <div className={containerClassName && containerClassName}>
@@ -122,7 +122,7 @@ export const domFunction = (() => {
               key={index}
               sx={{
                 bgcolor:
-                  themeMode === "Dark" && useSx === true ? "#20232A" : "gray",
+                  themeMode === "Dark" && useSx === true ? "rgb(171,171,171)" : "gray",
               }}
               animation="pulse"
               variant={variant}
@@ -144,7 +144,7 @@ export const domFunction = (() => {
     fieldsErr = {},
   }) => {
 
-    const { themeMode } = useStateContext();
+    const { themeMode } = UseStateContext();
 
     return (
       <>

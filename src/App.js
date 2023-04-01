@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login, Profil } from "./Pages";
+import { Login, Profil, Playlist } from "./Pages";
 import { ProtectedRoute, Navbar } from "./Components";
 import { AuthStateContext } from "./Contexts/AuthContext";
 import { UseStateContext } from "./Contexts/ContextProvider";
@@ -10,6 +10,7 @@ import Layout from "./Pages/Layout/Layout";
 import Sidebar from "./Components/SideBar/SideBar";
 
 import "./style.css";
+import PlayLesson from "./Pages/Course/PlayLesson";
 
 function App() {
   const { user } = AuthStateContext();
@@ -19,7 +20,7 @@ function App() {
     <div
       className={` ${
         themeMode === "Dark" ? "dark" : ""
-      } App h-screen w-full flex  justify-center dark:bg-secondary-dark-bg  text-gray-800 overflow-hidden  `}
+      } App h-screen w-full flex  justify-center dark:bg-secondary-dark-bg  text-gray-800 overflow-hidden   `}
     >
       <div className=" h-full w-full flex dark:bg-gray-700 bg-white   ">
         <BrowserRouter>
@@ -30,13 +31,13 @@ function App() {
 
             {/* main container   */}
             <div
-              className={` duration-300 transition-all  w-full   `}
+              className={` relative  duration-300 transition-all  w-full    `}
             >
               <div className=" w-full  ">{user && <Navbar />}</div>
 
               {user && <Layout />}
 
-              <div className=" h-full max-h-[100vh] overflow-y-scroll custumScrollBar ">
+              <div className=" h-full max-h-[100vh] overflow-y-scroll custumScrollBar  ">
                 <Routes>
                   <Route path="/">
                     <Route path="login" element={<Login />} />
@@ -72,7 +73,7 @@ function App() {
                       path=":moduleid"
                       element={
                         <ProtectedRoute>
-                          <Course />
+                          <Playlist />
                         </ProtectedRoute>
                       }
                     />
@@ -81,7 +82,7 @@ function App() {
                       path=":moduleid/:lessonid"
                       element={
                         <ProtectedRoute>
-                          <Course />
+                          <PlayLesson />
                         </ProtectedRoute>
                       }
                     />

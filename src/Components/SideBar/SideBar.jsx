@@ -3,7 +3,6 @@ import {
   Book,
   Close,
   Home,
-  Logout,
   Person,
   Settings,
 } from "@mui/icons-material";
@@ -14,7 +13,7 @@ import { fetchData } from "../../Firebase/functions/firestoreFunc";
 import { where } from "firebase/firestore";
 
 function Sidebar() {
-  const { activeSidebar, setActiveSidebar, screenSize } = UseStateContext();
+  const { activeSidebar, setActiveSidebar } = UseStateContext();
   const { user } = AuthStateContext();
   const [userDetails, setUserDetails] = useState({
     main: user,
@@ -66,8 +65,8 @@ function Sidebar() {
 
   return (
     <div
-      className={` max-[500px]:fixed   relative top-0 left-[-256px] w-64 bg-main-bg dark:bg-main-dark-bg h-screen   border-r border-gray-300 z-50  duration-300 ${
-        activeSidebar === true ? " translate-x-[256px] " : "w-0"
+      className={` max-[500px]:fixed   relative top-0 left-[-256px]  bg-main-bg dark:bg-main-dark-bg h-screen   border-r border-gray-300 z-50  duration-300 ${
+        activeSidebar === true ? " translate-x-[256px] w-64 " : " hidd w-0 "
       } `}
     >
       <div  className="text-right relative bottom-[-30px] py-2 px-2 min-[900px]:hidden ">

@@ -77,6 +77,14 @@ export const realTimeFectch = async (path) => {
   return list;
 };
 
+/**
+ * fetchData  -  retrive data from a collection in firebase
+ * @param {string} path - The path to acces the collection in firebase 
+ * @param {array} customQueryProps -  More details about de documents you want to fetch ( use : where ...) 
+ * 
+ * @throws {Error} if either the path, custuomQueryProps, connection are not valid or something interupp de fetch
+ * @returns {Array} An array containing the retrive information
+ */
 export const fetchData = async ({ path, custumQueryProps = [] }) => {
   let list = [];
 
