@@ -65,7 +65,7 @@ function Sidebar() {
 
   return (
     <div
-      className={` max-[500px]:fixed   relative top-0 left-[-256px]  bg-main-bg dark:bg-main-dark-bg h-screen   border-r border-gray-300 z-50  duration-300 ${
+      className={` max-[500px]:fixed z-full relative top-0 left-[-256px]  bg-main-bg dark:bg-main-dark-bg h-screen   border-r border-gray-300   duration-300 ${
         activeSidebar === true ? " translate-x-[256px] w-64 " : " hidd w-0 "
       } `}
     >
@@ -98,6 +98,7 @@ function Sidebar() {
         {menus.map((menu, index) => {
           return (
             <NavLink
+              key={index}
               to={menu.link}
               className={({ isActive }) =>
                 isActive

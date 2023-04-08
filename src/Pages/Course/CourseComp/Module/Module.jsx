@@ -14,20 +14,9 @@ const Module = ({ module, openModuleIds, handleModuleClick }) => {
 			<div>
 				<ListItemButton
 					onClick={() => handleModuleClick(module.id)}
-					className={`
-        "flex items-center justify-between",
-          hover:bg-blue-500 "
-        
-      `}
-					sx={{
-						backgroundColor:
-							moduleid === module.id ? "green" : "gray",
-						":hover": {
-							backgroundColor:
-								moduleid !== module.id
-									? "#374151"
-									: "green",
-						},
+					className={` flex items-center justify-between hover:bg-blue-500 `}
+					sx={{ backgroundColor: moduleid === module.id ? "#1A75FF" : "gray",
+						  	":hover": { backgroundColor: moduleid !== module.id ? "#1A75FF" : "#2681D4", },
 					}}
 				>
 					<ListItemText primary={module.name} />

@@ -21,7 +21,6 @@ const PlayList = () => {
       path: `students/${user.uid}/modules`, 
       custumQueryProps: [where('id', '==', moduleid)]
     }).then((data_container) => {
-      console.log(data_container)
       setModule(data_container[0]);
       updateSteps(data_container[0]);
     })

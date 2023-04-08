@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <div className=" sticky top-0 left-0 right-0 z-40 w-full flex dark:bg-main-dark-bg py-2 px-6  text-gray-700 dark:text-gray-100 border-b  ">
       <div className=" h-full w-full flex justify-center gap-4 p-1">
-        <header class="header w-full">
+        <header className="header w-full">
           <section className=" flex items-center justify-between w-full ">
             {/* nom du centre l'apprenant en cas de nom centre auto home sera afficher  */}
             <p className=" text-[1.5rem] ">Auto Home</p>
@@ -33,12 +33,12 @@ const Navbar = () => {
                 name="search_box"
                 required
                 placeholder="search courses..."
-                maxlength="100"
+                maxLength="100"
               />
-              <button type="submit" class="fas fa-search"></button>
+              <button type="submit" className="fas fa-search"></button>
             </form>
 
-            <div class=" flex items-center gap-2  ">
+            <div className=" flex items-center gap-2  ">
               <div
                 className=" rounded-md border p-2  cursor-pointer  "
                 onClick={(e) => {
@@ -49,7 +49,7 @@ const Navbar = () => {
               >
                 <Dehaze />
               </div>
-              <div  class="fas fa-user">
+              <div  className="fas fa-user">
               </div>
 
               {/* button for the use details */}

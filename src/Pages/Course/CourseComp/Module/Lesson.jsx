@@ -15,7 +15,7 @@ const Lesson = ({ lesson, module }) => {
   const { lessonid } = useParams();
 
   return (
-    <div className={` text-gray-800 dark:text-gray-200  ${lessonid === lesson.id ? ' bg-green-300 dark:bg-green-500 ' : ""} `}>
+    <div className={` text-gray-800 dark:text-gray-200  ${lessonid === lesson.id ? ' bg-opacity-70 bg-main-blue text-white ' : " hover:bg-secondary-blue hover:bg-opacity-30 "} `}>
       <NavLink to={`/course/${module.id}/${lesson.id}`}>
         <List component="div" disablePadding>
           <ListItemButton key={lesson.id} className={` pl-8  `}>

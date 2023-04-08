@@ -6,10 +6,10 @@ import { NavLink } from "react-router-dom";
 const Module = ({ module }) => {
   return (
     <div>
-      <div class="box box-shadow dark:bg-main-dark-bg bg-main-bg dark:text-gray-100 ">
+      <div className="box box-shadow dark:bg-main-dark-bg bg-main-bg dark:text-gray-100 ">
         <div className=" p-2 my-1 ">
           <span className="text-2xl w-full text-start">7 / 10 Complete</span>
-          <div class="info">
+          <div className="info">
             <LinearProgress
               sx={{ height: "7px", borderRadius: "0.5rem" }}
               variant="determinate"
@@ -17,7 +17,7 @@ const Module = ({ module }) => {
             />
           </div>
         </div>
-        <div class="thumb ">
+        <div className="thumb ">
           <img src={module.cover_page_URL} alt="" />
           <i>
             <Lock />

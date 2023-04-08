@@ -25,10 +25,10 @@ const Course = () => {
 
   return (
     <div className="p-5 mb-56">
-      <section class="courses px-4">
+      <section className="courses px-4">
         <Header items={breadcumbs} />
 
-        <div class="box-container custumScrollBar">
+        <div className="box-container custumScrollBar">
           {modules?.map((module, index) => {
             return <Module module={module} key={index} />;
           })}

@@ -11,10 +11,12 @@ import Sidebar from "./Components/SideBar/SideBar";
 
 import "./style.css";
 import PlayLesson from "./Pages/Course/PlayLesson";
+import {  ToastContainer } from "react-toastify/dist/components";
 
 function App() {
   const { user } = AuthStateContext();
   const { themeMode, activeSidebar } = UseStateContext();
+
 
   return (
     <div
@@ -25,6 +27,9 @@ function App() {
       <div className=" h-full w-full flex dark:bg-gray-700 bg-white   ">
         <BrowserRouter>
           <div className="dark:bg-secondary-dark-bg  box-shadow h-full   w-full flex items-start">
+
+            {/* toast container  */}
+            <ToastContainer />
             
             {/* side bar contaienr */}
             <>{user && <Sidebar />}</>

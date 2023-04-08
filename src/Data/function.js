@@ -10,9 +10,11 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Input from "@mui/material/Input";
 
+
 import * as React from "react";
 
 import { UseStateContext } from "../Contexts/ContextProvider";
+import UuidGenerator from "./Utils/Uuid";
 
 // this whil return the number of time
 export const generateSpecificLengthArr = (length) => {
@@ -115,7 +117,7 @@ export const domFunction = (() => {
     const { themeMode } = UseStateContext();
 
     return (
-      <div className={containerClassName && containerClassName}>
+      <div key={UuidGenerator.generate()} className={containerClassName && containerClassName}>
         {generateSpecificLengthArr(number).map((Skel, index) => {
           return (
             <Skeleton
@@ -124,7 +126,7 @@ export const domFunction = (() => {
                 bgcolor:
                   themeMode === "Dark" && useSx === true ? "rgb(171,171,171)" : "gray",
               }}
-              animation="pulse"
+              animation="wave"
               variant={variant}
               width={width ? width : 250}
               height={height ? height : 250}
