@@ -8,6 +8,7 @@ import {
   LightMode,
   Logout,
   Person,
+  Search,
   Settings,
 } from "@mui/icons-material";
 import React from "react";
@@ -27,15 +28,16 @@ const Navbar = () => {
             {/* nom du centre l'apprenant en cas de nom centre auto home sera afficher  */}
             <p className=" text-[1.5rem] ">Auto Home</p>
 
-            <form action="search.html" method="post">
+            <form className=" bg-white rounded-md">
               <input
                 type="text"
                 name="search_box"
                 required
                 placeholder="search courses..."
                 maxLength="100"
+                className=" py-2 rounded-md pl-2 "
               />
-              <button type="submit" className="fas fa-search"></button>
+              <button type="submit" className=" px-2 border-l "><Search /></button>
             </form>
 
             <div className=" flex items-center gap-2  ">

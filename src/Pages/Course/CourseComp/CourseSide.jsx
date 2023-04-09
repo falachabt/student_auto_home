@@ -6,7 +6,7 @@ import { fetchData } from "../../../Firebase/functions/firestoreFunc";
 import { AuthStateContext } from "../../../Contexts/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 
-const CourseSide = () => {
+const CourseSide = (props) => {
   const [openModuleIds, setOpenModuleIds] = useState([]);
   const [ currentOptions, setCurrentOption] = useState({
     currentModule: {}, 
@@ -47,7 +47,7 @@ const CourseSide = () => {
       }
 
     });
-  }, []);
+  }, [props.reload]);
 
   
 
@@ -55,8 +55,6 @@ const CourseSide = () => {
     <div
       className={` box-shadow   py-4  dark:bg-main-dark-bg w-[250px] dark:text-white  rounded-xl flex flex-col border-r border-gray-300`}
     >
-   
-
       <List component="nav" >
         {modules?.map((module) => (
           <div key={module.id}>
@@ -64,6 +62,7 @@ const CourseSide = () => {
               module={module}
               handleModuleClick={handleModuleClick}
               openModuleIds={openModuleIds}
+              reload = {props.reload}
             />
           </div>
         ))}

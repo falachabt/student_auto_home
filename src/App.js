@@ -11,7 +11,8 @@ import Sidebar from "./Components/SideBar/SideBar";
 
 import "./style.css";
 import PlayLesson from "./Pages/Course/PlayLesson";
-import {  ToastContainer } from "react-toastify/dist/components";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { user } = AuthStateContext();
@@ -32,7 +33,8 @@ function App() {
             <ToastContainer />
             
             {/* side bar contaienr */}
-            <>{user && <Sidebar />}</>
+
+            <div className="flex-1">{user && <Sidebar />}</div>
 
             {/* main container   */}
             <div

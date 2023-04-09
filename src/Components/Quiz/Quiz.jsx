@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Dialog } from "@mui/material";
 
 const signalisationQuestions = [
   {
@@ -97,11 +97,72 @@ const signalisationQuestions = [
   },
 ];
 
-const Quiz = () => {
+
+const QuizConfirm =  (props) => {
+  const [isSubmited, setSubmited] = useState({
+    start: false, 
+    error: false,
+    end: false,
+  });
+
+  function onSubmitOk () {
+    setSubmited({
+      start: false,
+      end: true,
+      error: false
+    })
+
+
+  }
+
+  function onSubmitError () {
+    setSubmited({
+      start: false,
+      end: true,
+      error: true,
+    })
+  }
+
+  function onCancelClick () {
+    props.cancelClick && props.cancelClick();
+  }
+
+  
+  function handleSubmit() {
+    setSubmited({...isSubmited, start: true});
+    props.updateLessonProgress && props.updateLessonProgress('submit', onSubmitOk, onSubmitError);
+  }
+
+  return (
+    <div className="flex flex-col gap-2 p-3 ">
+      <header className="p-2  text-center">
+        <h1 className="text-2xl pb-1 border-b-1 border-gray-700 borer-solid font-semibold">Submit this quiz ?</h1>
+        <h2>You will not be able to change after</h2>
+      </header>
+
+      <main className="my-1">
+        {/* info section */}
+        <section className=" p-3  ">
+          { isSubmited.error && <h3 className="text-red-500">something went wrong, please try again</h3> }
+          { (!isSubmited.error && isSubmited.end) && <h3>Your Quiz have been submited</h3> }
+        </section>
+      </main>
+
+    
+      <div className="border-t-1 border-gray-700 py-3 border-solid  flex gap-2 justify-end items-center">
+        <Button disabled = {isSubmited.start} onClick = {onCancelClick} variant = "outlined" color = "error">Cancel</Button>
+        <Button disabled = {isSubmited.start} onClick = {handleSubmit} variant = "outlined" color = "info">Submit</Button>
+      </div>
+    </div>
+  )
+}
+
+const Quiz = (props) => {
     const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
     const [currentQuestion, setCurrentQuestion ]  = useState(signalisationQuestions[currentQuestionNumber - 1])
     const [selectedAnswer, setSelectedAnswer] = useState("");
     const [correctAnswer, setCorrectAnswer] = useState("B");
+    const [submitDialog, setSubmitDialog] = useState(false)
 
 
     const handleNextQuestion = () => {
@@ -118,10 +179,15 @@ const Quiz = () => {
 
     const handleSubmit = () => {
         // Check if the selected answer is correct and do something with the result
+        setSubmitDialog(true);
     };
 
+    function cancelClick () {
+      setSubmitDialog(false);
+    }
+
     return (
-        <div className="flex flex-col items-center justify-center pt-1 dark:text-white w-full ">
+        <div id = 'lesson_quiz' className="flex flex-col items-center justify-center pt-1 dark:text-white w-full ">
             <div className="flex items-center justify-between w-[95%] dark:text-white mb-4 font-bold text-lg text-center border-t-1 border-b-1 border-solid  p-4">
         <div>QUESTION {currentQuestionNumber}</div>
         <div>{currentQuestionNumber}/10</div>
@@ -217,6 +283,13 @@ const Quiz = () => {
                 </Button>
             </div>
         </div>
+
+        {/* section for submit dialog */}
+        <section>
+              <Dialog open = {submitDialog}>
+                <QuizConfirm cancelClick = {cancelClick} updateLessonProgress = {props.updateLessonProgress} />
+              </Dialog>
+        </section>  
     </div>
   );
 };

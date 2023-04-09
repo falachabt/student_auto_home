@@ -418,7 +418,7 @@ section {
 
 .playlist-videos .box-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 1.5rem;
   justify-content: center;
   align-items: flex-start;
@@ -435,7 +435,7 @@ section {
   top: 2rem;
   left: 2rem;
   right: 2rem;
-  height: 20rem;
+  height: 15rem;
   border-radius: 0.5rem;
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
@@ -817,7 +817,7 @@ section {
 .footer {
   background-color: var(--white);
   border-top: var(--border);
-  position: sticky;
+  position: 'sticky';
   bottom: 0;
   left: 0;
   right: 0;

@@ -66,14 +66,17 @@ class VideoPlayer extends Component {
 				pause: true,
 				prevTime: sessionStorage.getItem("prevtime") || 0,
 				currentTime: 0,
-				on_v_end_start: false,
-				on_v_end_end: false,
 			},
-			onVideoEnd: props.onVideoEnd ? props.onVideoEnd : null,
 		};
+		
+		this.video_end = {
+			updateLessonProgress: props.updateLessonProgress || null,
+			error: false,
+			allow_callback: this.state.lesson.progress.text !== true,
+			has_start: false,
+			has_end: false,
+		}
 	}
-
-	
 
 	custumControl() {
 		
@@ -110,6 +113,33 @@ class VideoPlayer extends Component {
 
 	}
 
+	onEnd() {
+
+		// return if we don't need to open the text
+		if(!this.video_end.allow_callback)
+			return;
+
+		const player = this.videoNode
+		const time = (0.5 * (player.currentTime + this.getPlayedTime()));
+		const comp = this;
+		
+		if (time >= 0.95 * player.duration  && (!this.video_end.has_start) && this.video_end.updateLessonProgress ){
+						
+				function update_success() {
+					comp.video_end.has_end = true
+				};
+
+				function update_error() {
+					comp.video_end.error = true;
+					comp.video_end.has_end = true;
+					comp.video_end.has_start = false;
+				};
+
+				this.video_end.has_start = true;
+				this.video_end.updateLessonProgress('text', update_success, update_error)
+		}
+	}
+
 	getPlayedTime() {
 		const played = this.videoNode.played
 		let i = played.length;
@@ -121,14 +151,7 @@ class VideoPlayer extends Component {
 		return (playedTime);
 	}
 
-	endFunction() {
-		const user = getAuth().currentUser;
-
-		updateData({
-			path: `student/${user.uid}/`
-		})
-	}
-
+	
 	componentDidMount() {
 		const videoUrl = this.state.lesson.video_src;
 		// initialize the player
@@ -157,10 +180,9 @@ class VideoPlayer extends Component {
 		// add the title bar to the palyer 
   		// player.addChild('TitleBar', {text: this.state.lesson.title}, 0);
 
-		// setthe video where the use leave it
+		// set the video where the use leave it
 		if (this.state.videoState.prevTime) {
 			player.currentTime(this.state.videoState.prevTime);
-			player.play();
 		}
 
 		// store the player object in state
@@ -184,29 +206,10 @@ class VideoPlayer extends Component {
 
 		// getting the video time:
 		player.on("timeupdate", () => {
-			sessionStorage.setItem("prevtime", player.currentTime());
+			// sessionStorage.setItem("prevtime", player.currentTime());
 
-			const time = (0.5 * (player.currentTime() + this.getPlayedTime()));
-			if (time >= 0.95 * player.duration()  && (!this.state.videoState.on_v_end_end) ){
-				
-				const comp = this;
-				function after_update() {
-					comp.setState({
-						videoState: {
-							...comp.state.videoState,
-							 on_v_end_end: true,
-						}
-					})
-				}
-				
-				this.setState({
-					videoState: {
-						...this.state.videoState,
-						on_v_end_start: true
-					}
-				})
-				this.state.onVideoEnd && this.state.onVideoEnd(after_update)
-			}
+			this.onEnd();
+			
 
 			this.setState({
 				videoState: {
@@ -228,7 +231,7 @@ class VideoPlayer extends Component {
 
 	render() {
 		return (
-			<div data-vjs-player className=" video flex w-full justify-start p-2 ">
+			<div id = "lesson_video" data-vjs-player className=" video flex w-full justify-start p-2 ">
 				<video
 					ref={(node) => (this.videoNode = node)}
 					className="video-js vjs-big-play-centered max-h-[300px] w-[100%]   "

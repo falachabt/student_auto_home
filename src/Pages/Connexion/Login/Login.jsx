@@ -19,7 +19,7 @@ const Login = () => {
       <div className="flex h-full  items-center justify-center">
         <form
           id="sign_in_form"
-          className=" box-shadow-1 rounded-lg border bordr-solid border-main-blue p-4 flex flex-col justify-center gap-4 sm:w-[400px] min-w-[320px] "
+          className=" box-shadow-1 rounded-lg border bordr-solid border-main-blue p-4 flex flex-col justify-center gap-4 sm:w-[350px] min-w-[300px] "
         >
           <div className="flex flex-col justify-center items-center">
             <img

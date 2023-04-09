@@ -1,9 +1,14 @@
 import { Lock } from "@mui/icons-material";
 import { LinearProgress } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 const Module = ({ module }) => {
+
+  useEffect(() => {
+    
+  })
+
   return (
     <div>
       <div className="box box-shadow dark:bg-main-dark-bg bg-main-bg dark:text-gray-100 ">

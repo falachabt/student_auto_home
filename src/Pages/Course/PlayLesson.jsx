@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Quiz } from "../../Components";
-import CollapseSystem from "../../Components/CollapseSystem/CollapseSystem";
 import Header from "../../Components/Header/Header";
 import { AuthStateContext } from "../../Contexts/AuthContext";
 import { domFunction } from "../../Data/function";
@@ -22,10 +21,11 @@ const PlayLesson = () => {
   const { user } = AuthStateContext();
   const { screenSize } = UseStateContext();
   const [lesson, setLesson] = useState({});
-  const [module, setModule] = useState({});
+  // const [module, setModule] = useState({});
   const [steps, setSteps] = useState([{ name: "course", link: "/course" }]);
   const [lessonState, setLessonState] = useState({ video: true, text: false, quiz: false});
   const [state, setState] = useState({ fetch_less: true, fetch_mod: false, error_fetch: true});
+  const [reload, setRelaod] = useState(0);
 
   useEffect(() => {
 
@@ -35,7 +35,7 @@ const PlayLesson = () => {
       path: `students/${user.uid}/modules`,
       custumQueryProps: [where("id", "==", moduleid)],
     }).then((modules) => {
-      setModule(modules[0]);
+      // setModule(modules[0]);
       fetchData({
         path: `students/${user.uid}/modules/${moduleid}/lessons`,
         custumQueryProps: [where("id", "==", lessonid)],
@@ -56,41 +56,76 @@ const PlayLesson = () => {
   }, [moduleid, lessonid]);
 
   function updateSteps(mod, less) {
-    let isSet = steps.find((item) => {
-      return item.name === mod.name;
-    });
+    setSteps([
+      {name: 'courses', link: "/course"},
+      { name: mod.name, link: `/course/${mod.id}` },
+      { name: less.title, link: `/course/${mod.id}/l${less.id}` },
+    ]);
+    
+  }
 
-    if (!isSet) {
-      setSteps([
-        ...steps,
-        { name: mod.name, link: `/course/${mod.id}` },
-        { name: less.title, link: `/course/${mod.id}/l${less.id}` },
-      ]);
+  /**
+ * Updates the lesson progress and progress percent based on the action taken by the user.
+ * @param {function} onSuccess - A callback function to be called on successful completion of the update.
+ * @param {function} onError - A callback function to be called if there is an error during the update.
+ * @param {string} moduleId - The ID of the module that contains the lesson.
+ * @param {string} lessonId - The ID of the lesson being updated.
+ * @param {object} lesson - The current state of the lesson being updated.
+ * @param {number} reload - A counter used to force a reload of the component when the progress is updated.
+ * @param {function} setLesson - A function to update the lesson state with the new progress.
+ * @param {function} setReload - A function to update the reload state to force a reload of the component.
+ */
+  async function updateLessonProgress(action, onSuccess, onError) {
+    try {
+      let progress = {...lesson.progress};
+      let progress_percent = 0;
+      let toast_message = "";
+
+      switch (action) {
+        case 'text':
+          if (lesson.progress.text) return;
+          progress = { ...lesson.progress, text: true };
+          progress_percent = 1 / 3;
+          toast_message = "unlock text";
+          break;
+  
+        case 'quiz':
+          if (lesson.progress.quiz) return;
+          progress = { ...lesson.progress, text: true, quiz: true };
+          progress_percent = 2 / 3;
+          toast_message  = "Go to quiz";
+          break;
+          
+        case 'submit':
+          progress_percent = 3 / 3;
+          toast_message = "Submitted move to next lesson"
+          break;
+          
+          default:
+            return;
+          }
+          
+          await updateData({
+            path: `students/${user.uid}/modules/${moduleid}/lessons/${lessonid}`,
+            data: { ...lesson, progress: progress, progress_percent: progress_percent },
+          });
+          
+          setRelaod(reload + 1);
+          onSuccess && onSuccess();
+          setLesson({ ...lesson, progress: progress, progress_percent: progress_percent });
+          toast.success(toast_message, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        } catch (error) {
+      onError && onError();
     }
   }
-
-  async function onVideoEnd(onSuccess) {
-    console.log('enter end function');
-    try{
-      if(!lesson.progress.text)
-        await updateData({
-          path: `students/${user.uid}/modules/${moduleid}/lessons/${lessonid}`,
-          data: { ...lesson, progress: {...lesson.progress, text: true} }
-        });
-        toast.success(`${lesson.name} -> text open`, {
-          position: toast.POSITION.TOP_CENTER,
-          // containerId: "1",
-        });
-        onSuccess && onSuccess();
-      setLesson({...lesson, progress: {...lesson.progress, text: true}});
-
-    }catch(err){}
-  }
+  
 
   const elements = {
-    video: <VideoPlayer lesson = {lesson} onVideoEnd = {onVideoEnd} />,
-    text: <TextEditor />,
-    quiz: <Quiz />,
+    video: <VideoPlayer lesson = {lesson} updateLessonProgress = {updateLessonProgress} />,
+    text: <TextEditor updateLessonProgress = {updateLessonProgress} />,
+    quiz: <Quiz  updateLessonProgress = {updateLessonProgress}/>,
   };
 
   return (
@@ -99,7 +134,6 @@ const PlayLesson = () => {
         <Header items={steps} />
       </header>
       
-      <button onClick= {() => {toast.success('voici ca qui marche', {containerId: '1'})}}>toatt</button>
 
       <main className=" flex  max-sm:flex-col justify-start gap-4 w-full ">
         <section style={{maxWidth: 0.9*screenSize}} className="watch-video  flex-[2] max-w-4xl  ">
@@ -117,7 +151,6 @@ const PlayLesson = () => {
                       containerClassName: 'flex w-full flex-col gap-3',
                       useSx: true,
                       key: value,
-
                     })
                   )
                 }
@@ -133,7 +166,7 @@ const PlayLesson = () => {
           </div>
         </section>
         <section className=" h-fit max-sm:w-full  ">
-          <CourseSide />
+          <CourseSide reload = {reload} />
         </section>
       </main>
     </div>
